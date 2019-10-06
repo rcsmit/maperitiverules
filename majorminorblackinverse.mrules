@@ -1,19 +1,11 @@
-﻿// Maperitive rendering ruleset resembling Google Maps (as of February 2011)
+// Maperitive rendering ruleset resembling Google Maps (as of February 2011)
 // http://maperitive.net
+
 
 // Created by Igor Brejc
 // Released under the Creative Commons Attribution-ShareAlike 3.0 License (http://creativecommons.org/licenses/by-sa/3.0/)
-// Updates by Michael <quelbs_at_gmail.com>
-// Icons used: Map icons CC-0 from SJJB Management (http://www.sjjb.co.uk/mapicons)
-
-// History:
-// --------
-// 2011-07-26: Updated by Michael <quelbs_at_gmail.com>
-//		- added icons for parks, parking, restaurants and railway
-//		- added names for parks, restaurants
-//		- added rendering of playground, sport, living_street and steps
-//		- added path (thin solid line) and motorway (thicker orange line) rendering adjusted
-//		- added special rendering for tunnels
+// Edited by Rene Smit to make a very basic map with only the major and minor roads in white with black background
+// https://discuss.gravit.io/t/how-to-make-cool-maps/10869
 
 features
 	
