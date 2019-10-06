@@ -144,7 +144,7 @@ rules
 			line-end-cap: round
 		for : tunnel=no
 			define
-				border-style : dot
+			//	border-style : dot
 		draw : line
 		
 	
