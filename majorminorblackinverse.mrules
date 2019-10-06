@@ -185,5 +185,6 @@ rules
 		define
 			min-zoom : 10
 			line-color : #A5BFDD
-			line-width : 14:10;16:50;20:100
+			//line-width : 14:10;16:50;20:100
+			line-width : 14:1;16:5;20:10
 		//draw : line
