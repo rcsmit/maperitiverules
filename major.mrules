@@ -6,15 +6,7 @@
 // Updates by Michael <quelbs_at_gmail.com>
 // Icons used: Map icons CC-0 from SJJB Management (http://www.sjjb.co.uk/mapicons)
 
-// History:
-// --------
-// 2011-07-26: Updated by Michael <quelbs_at_gmail.com>
-//		- added icons for parks, parking, restaurants and railway
-//		- added names for parks, restaurants
-//		- added rendering of playground, sport, living_street and steps
-//		- added path (thin solid line) and motorway (thicker orange line) rendering adjusted
-//		- added special rendering for tunnels
-
+// ONLY THE MAJOR ROADS
 features
 	
 		
