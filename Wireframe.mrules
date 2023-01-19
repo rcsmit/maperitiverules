@@ -1,0 +1,31 @@
+// Wireframe rules
+
+// Created by Igor Brejc
+// Released under the Creative Commons Attribution-ShareAlike 3.0 License (http://creativecommons.org/licenses/by-sa/3.0/)
+
+features
+	lines
+		all lines : 
+	areas
+		
+		//all areas : 
+
+		water : natural=water OR natural=wetland OR waterway=riverbank OR waterway=stream OR landuse=reservoir OR landuse=basin
+
+properties
+	map-background-color : #181818
+
+rules	
+
+	//target : all areas
+	target : water
+		define
+			fill-color : green
+			//fill-opacity : 0.1
+		draw : fill
+
+	target : all lines
+		define
+			line-color : lightgray
+			line-width : 0.5
+		draw : line

@@ -9,14 +9,10 @@
 // History:
 // --------
 // 2011-07-26: Updated by Michael <quelbs_at_gmail.com>
-//		- added icons for parks, parking, restaurants and railway
-//		- added names for parks, restaurants
-//		- added rendering of playground, sport, living_street and steps
-//		- added path (thin solid line) and motorway (thicker orange line) rendering adjusted
-//		- added special rendering for tunnels
+// okt 2019 : Adaption for woodwork like texttim.nl
 
 
-
+// use-ruleset location="C:\Users\rcxsm\Documents\Maperitive-latest\Maperitive\Rules/woodwork.mrules"
 
 features
 	
@@ -37,6 +33,7 @@ features
 
 		path : @isOneOf(highway, path, footway, pedestrian, steps) OR (highway=track AND @isOneOf(tracktype, grade4, grade5))
 		//residential : residential
+		service : highway = service
 		water line : waterway=stream OR waterway=river or water=river OR waterway=canal OR waterway=drain		
 	areas
 		water : natural=water OR water=river OR water=natural OR natural=wetland OR waterway=riverbank OR man_made=water_well
@@ -64,17 +61,20 @@ properties
 rules
 	target : water
 		define
-			fill-color : #eeeeee
-			line-width : 0
-			border-style : none
-		//draw : line
+			//border-color : black
+			//border-width : 1
+			line-width : 1
+			line-color : black
+			//border-style : solid
+
+		draw : line
 		//draw : fill
 	
 // lines
 
 	target : boundary*
 		define
-			line-color : #818181
+			line-color : black
 			line-width : 2
 			border-style : solid
 			border-color : #818181
@@ -85,26 +85,26 @@ rules
 	target : railway
 		define
 			min-zoom : 13
-			line-color : #a1a1a1
+			line-color : black
 			line-width : 2
-		//draw : line
+		draw : line
 		define
 			min-zoom : 13
 			line-style : dashlong
 			line-color : white
 			line-width : 1
 			border-style : solid
-			border-color : #a1a1a1
+			border-color : black
 			border-width : 25%
-		//draw : line
+		draw : line
 		define
 			min-zoom : 6
 			max-zoom : 13
 			line-style : solid
 			border-style : none
-			line-color : #a1a1a1
+			line-color : black
 			line-width : 1
-		//draw : line
+		draw : line
 
 	target : motorway
 		define
@@ -136,7 +136,7 @@ rules
 	// HOUDEN !!!!
 		define
 			min-zoom : 8
-			line-color : #2E2E2E
+			line-color : black
 			line-width : 10:1;13:2;14:3;15:4;18:4
 			//border-style : solid
 			//border-color : #fffd8b black 20%
@@ -155,7 +155,7 @@ rules
 		define
 			min-zoom : 10
 			max-zoom : 20
-			line-color : #747474
+			line-color : black
 			line-width : 13:0.5;14:0.5;15:0.5;16:0.5
 			//border-style : solid
 			//border-color : #D4CCB8
@@ -173,7 +173,7 @@ rules
 		define
 			min-zoom : 12
 			max-zoom : 20
-			line-color : #8B8B8B
+			line-color : black
 			//border-style : solid
 			//border-width : 1
 			//border-color : #D4CCB8
@@ -182,7 +182,21 @@ rules
 			define
 				//border-style : dot
 		 draw : line
-
+	
+	target : service
+	// service 
+		define
+			min-zoom : 12
+			max-zoom : 20
+			line-color : black
+			//border-style : solid
+			//border-width : 1
+			//border-color : #D4CCB8
+			line-width : 13:0.5;14:0.5;15:0.5;16:0.5
+		for : tunnel=yes
+			define
+				//border-style : dot
+		 draw : line
 	
 
 			
@@ -191,7 +205,7 @@ rules
 		define
 			min-zoom : 12
 			max-zoom : 20
-			line-color : red
+			line-color :black
 			//border-style : solid
 			//border-width : 1
 			//border-color : #D4CCB8

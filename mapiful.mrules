@@ -1,4 +1,4 @@
-﻿// Maperitive rendering ruleset resembling Google Maps (as of February 2011)
+// Maperitive rendering ruleset resembling Google Maps (as of February 2011)
 // http://maperitive.net
 
 // Created by Igor Brejc
@@ -19,7 +19,31 @@
 
 
 features
-	
+	areas
+		building : building=yes
+		water : natural=water OR waterway=riverbank OR landuse=reservoir
+		pitch : leisure=pitch
+		village green : landuse=village_green
+		forest : landuse=forest OR natural=wood
+		farm : landuse=farm
+		grass : landuse=grass
+		fell : natural=fell
+		national park : boundary=national_park
+		allotments : landuse=allotments
+		academic : node[amenity=university OR amenity=college OR amenity=school] area[amenity=university OR amenity=college OR amenity=school]
+		meadow : natural=meadow OR landuse=meadow
+		nature reserve : leisure=nature_reserve
+		playground : leisure=playground
+		car park: amenity=parking
+		track : leisure=track
+		graveyard : amenity=grave_yard OR landuse=cemetery
+		military barracks : landuse=military AND military=barracks 
+		park : leisure=park
+		leisure garden : leisure=garden
+		landuse retail : landuse=retail
+		landuse industrial : landuse=industrial
+		commercial area : landuse=commercial
+		residential area : landuse=residential
 		
 	lines
 		boundary country : boundary=administrative AND (admin_level=2 OR admin_level=4) AND NOT natural=coastline
@@ -31,11 +55,12 @@ features
 
 		motorway : highway=motorway
 		motorway link : highway=motorway_link
-		major road : @isOneOf(highway, trunk, trunk_link, primary, primary_link, secondary, tertiary)
-		//minor road : @isOneOf(highway, unclassified, residential, service, living_street) OR (highway=track AND (@isOneOf(tracktype, grade1, grade2, grade3) OR NOT tracktype))
-		minor road : @isOneOf(highway, unclassified, residential, living_street) OR (highway=track AND (@isOneOf(tracktype, grade1, grade2, grade3) OR NOT tracktype))
+		
+		minor road : @isOneOf(highway, residential, living_street)
+		major road : @isOneOf(highway, unclassified, trunk, trunk_link, primary, primary_link, secondary, secondary_link, tertiary)
+		
 
-		path : @isOneOf(highway, path, footway, pedestrian, steps) OR (highway=track AND @isOneOf(tracktype, grade4, grade5))
+		path : @isOneOf(highway, path, pedestrian, steps) OR (highway=track AND @isOneOf(tracktype, grade4, grade5))
 		//residential : residential
 		water line : waterway=stream OR waterway=river or water=river OR waterway=canal OR waterway=drain		
 	areas
@@ -136,7 +161,25 @@ rules
 	// HOUDEN !!!!
 		define
 			min-zoom : 8
-			line-color : #2E2E2E
+			line-color : black
+			line-width : 10:2;13:3;14:4;15:6;18:8
+			//border-style : solid
+			//border-color : #fffd8b black 20%
+			//border-width : 0
+
+		
+		draw : line
+
+
+	
+
+		
+	
+	target : tertiary
+	// HOUDEN !!!!
+		define
+			min-zoom : 8
+			line-color : red
 			line-width : 10:1;13:2;14:3;15:4;18:4
 			//border-style : solid
 			//border-color : #fffd8b black 20%
@@ -148,15 +191,17 @@ rules
 		for : tunnel=no
 			define
 			//	border-style : dot
-		draw : line
+		draw : line	
+	
+	
 
 	target : minor road
 		
 		define
 			min-zoom : 10
 			max-zoom : 20
-			line-color : #747474
-			line-width : 13:0.5;14:0.5;15:0.5;16:0.5
+			line-color : #4D4D4D
+			line-width : 10:1;13:2;14:2;15:4;18:4
 			//border-style : solid
 			//border-color : #D4CCB8
 			//border-width : 0
@@ -165,26 +210,6 @@ rules
 			define
 				//border-style : dot
 		draw : line
-		
-	
-		
-	target : path
-	// voetpaden  paadjes naast wegen
-		define
-			min-zoom : 12
-			max-zoom : 20
-			line-color : #8B8B8B
-			//border-style : solid
-			//border-width : 1
-			//border-color : #D4CCB8
-			line-width : 13:0.5;14:0.5;15:0.5;16:0.5
-		for : tunnel=yes
-			define
-				//border-style : dot
-		 draw : line
-
-	
-
 			
 	target : residential
 	// voetpaden  paadjes naast wegen
@@ -199,7 +224,94 @@ rules
 		for : tunnel=yes
 			define
 				//border-style : dot
-		 draw : line
+		 //draw : line
+
+	target : playground
+		define
+			min-zoom : 12
+			fill-color : #EEEEEE
+			line-style : none
+		draw : fill
+		define
+			line-color : #ADADAD
+			line-width : 1
+		draw : line
+		//draw : text
+
+	target : $featuretype(area)
+		define
+			line-style : solid
+			line-width : 1
+		
+		if : building
+			define
+				//fill-color : #BCBCBC
+				line-color : #cccccc
+		
+		else
+			stop
+		draw : line
+		//draw : fill
+		
+
+	
+
+	
+					
+	target : railway
+		define
+			min-zoom : 13
+			line-color : #999999
+			line-width : 2
+			curved : false
+		draw : line
+		define
+			min-zoom : 13
+			line-style : dashlong
+			line-color : white
+			line-width : 2
+			border-style : solid
+			border-color : #999999
+			border-width : 25%
+			curved : false
+		draw : line
+		define
+			min-zoom : 6
+			max-zoom : 13
+			line-style : none
+			line-color : white black 30%
+			line-width : 6:1;8:1;12:1.5
+			curved : true
+		draw : line
+
+	target : line barrier
+		define
+			min-zoom : 13
+			line-color : black
+			line-width : 1
+		draw : line
+
+	target : bridge foot
+		define
+			min-zoom : 13
+			line-color : #555555
+			line-width : 7:0.6;9:1;10:1.2;12:2.5;13:3;16:5;18:6
+			line-style : dot
+			border-style : solid
+			border-color : #FEFEFE black 20%
+			border-width : 15%
+		draw : line
+		draw : text
+
+	target : historic citywalls
+		define
+			min-zoom : 13
+			line-color : #8D8D8D
+			line-width : 7:0.6;9:1;10:1.2;12:2.5;13:3;16:10
+		draw : line
+		draw : text
+
+		define
 
 	
 

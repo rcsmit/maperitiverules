@@ -20,7 +20,8 @@
 //
 // Clone of Mapnik colours with a couple of extra POIs
 // User: Seventy7 27 April 2010
-
+//
+// use-ruleset location="C:\Users\rcxsm\Documents\Maperitive-latest\Maperitive\Rules/kleurplaat.mrules"
 
 features
 //	parking : amenity=parking
@@ -134,7 +135,7 @@ features
 //		pharmacy : amenity=pharmacy
 
 properties
-	map-background-color	: #F1EEE8
+	map-background-color	: #Ffffff
 	map-background-opacity	: 1
 	map-sea-color : #B5B5B5
 	font-weight : bold
@@ -161,11 +162,14 @@ rules
 				shape-aspect : 0.5
 				shape-spacing : 6
 				fill-color : #6C6C6C
-				line-style : none
+				line-style : solid
+				border-style : solid
+				border-color : #969696 black 20%
+				border-width : 15%
 			for : oneway=-1
 				define
 					angle : 180
-			draw : shape 
+			//draw : shape 
 		
 		define
 			line-join : round
@@ -215,6 +219,7 @@ rules
 				line-width : 11:1;12:2;15:13;18:15
 				border-style : solid
 				border-color : #ECECEC black 20%
+				//border-color : red black 20%
 				border-width : 15%
 			draw : line
 			define
@@ -230,6 +235,7 @@ rules
 				line-width : 11:1;13:2;15:6;18:8
 				border-style : solid
 				border-color : #CACACA
+				//border-color : green
 				border-width : 15%
 			draw : line
 			define
@@ -247,9 +253,10 @@ rules
 				line-width : 11:1;13:2;15:6;18:8
 				border-style : solid
 				border-color : #FEFEFE black 20%
+				//border-color : yellow black 20%
 				border-width : 15%
 			draw : line
-			draw : text
+			//draw : text
 		elseif : *service
 			define
 				min-zoom : 13
@@ -277,7 +284,7 @@ rules
 				border-color : #B1B1B1 black 20%
 				border-width : 15%
 			draw : line
-			draw : text
+			//draw : text
 
 		elseif : $regex("(.*residential)|(.*unclassified)")
 			define
@@ -389,24 +396,30 @@ rules
 			define
 				min-zoom : 9
 				fill-color : #E9E9E9
+				line-color : #aaaaaa
 		elseif : fell
 			define
 				fill-color : #C5C5C5 black 10%
 		elseif : water
 			define
 				fill-color : #B5B5B5
+				line-color : #aaaaaa
 		elseif : residential area
 			define
-				fill-color : #DCDCDC
+				//fill-color : #DCDCDC
+				line-color : #aaaaaa
 		elseif : grass
 			define
 				fill-color : #CFCFCF
+				line-color : #aaaaaa
 		elseif : allotments
 			define
 				fill-color : #666666
+				line-color : #aaaaaa
 		elseif : meadow
 			define
 				fill-color : #CFCFCF
+				line-color : #aaaaaa
 		elseif : nature reserve
 			define
 				fill-color : #ABABAB
@@ -416,41 +429,52 @@ rules
 		elseif : park
 			define
 				fill-color : #BBBBBB
+				line-color : #aaaaaa
 		elseif : leisure garden
 			define
 				fill-color : #CFCFCF
+				line-color : #aaaaaa
 		elseif : graveyard
 			define
 				fill-color : #A9A9A9
+				line-color : #aaaaaa
 		elseif : building
 			define
-				fill-color : #BCBCBC
+				//fill-color : #BCBCBC
+				line-color : #aaaaaa
 		elseif : pitch
 			define
 				fill-color : #BBBBBB
+				line-color : #aaaaaa
 		elseif : track
 			define
 				fill-color : #747474
+				line-color : #aaaaaa
 		elseif : village green
 			define
 				fill-color : #CFCFCF
+				line-color : #aaaaaa
 		elseif : landuse retail
 			define
 				fill-color : #F0F0F0
-				line-color : #F4F4F4
+				line-color : #aaaaaa
 			draw : line
 		elseif : landuse industrial
 			define
 				fill-color : #DFDFDF
+				line-color : #aaaaaa
 		elseif : commercial area
 			define
-				fill-color : #EFEFEF
+				//fill-color : #EFEFEF
+				line-color : #aaaaaa
 		elseif : military barracks
 			define
 				fill-color : #FEFEFE
+				line-color : #aaaaaa
 		else
 			stop
-		draw : fill
+		draw : line
+		//draw : fill
 		define
 			min-zoom : 17
 		draw : text
@@ -460,7 +484,7 @@ rules
 		define
 			fill-color : #F0F0F0
 			line-style : none
-		draw : fill
+		//draw : fill
 		define
 			line-color : #E5E5E5
 			line-width : 1
@@ -491,7 +515,7 @@ rules
 			fill-color : #8D8D8D
 			fill-opacity : 0.2
 			line-style : none
-		draw : fill
+		//draw : fill
 		define
 			line-color : #8D8D8D black 20%
 			line-opacity : 0.5
@@ -601,242 +625,7 @@ rules
 			line-width : 13:1;15:2
 		draw : line
 		
-	target: parking
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/parking.p.16.png
-			min-zoom : 15
-			icon-width : 16
-		draw : icon
-	target: bus stop
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/bus_stop.p.12.png
-			min-zoom : 15
-			icon-width : 16
-		draw : icon
-	target: postbox
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/post_box.p.16.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-		define
-			min-zoom : 17
-			text : collection_times
-		draw : text
-
-	target: postoffice
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/post_office.p.16.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-	target: telephone
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/telephone.p.16.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-
-	target: fire station
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/firestation.p.16.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon				
-	target: hospital
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/hospital.p.16.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-	target: police station
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/police.p.16.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-	target: cafe
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/cafe.p.16.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-	target: recycling
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/recycling.p.16.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-	target: supermarket
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/shop_supermarket.p.16.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-	target: diy
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/shop_diy.p.16.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-	target: convenience
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/shop_convenience.p.16.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-
-	target: mini roundabout
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/mini_round.png
-			min-zoom : 16
-			icon-width : 9
-		draw : icon
-	target: church
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/christian3.p.14.png
-			min-zoom : 16
-			icon-width : 16
-		draw : text
-		draw : icon
-	target: drinking water
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/food_drinkingtap.p.20.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-	target: bank
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/bank2.p.16.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-	target: atm
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/atm2.p.16.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-	target: restaurant
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/restaurant.p.16.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-	target: hair dresser
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/shop_hairdresser.p.16.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-
-	target: toilets
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/toilets.p.20.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-	target: pharmacy
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/pharmacy.p.16.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-	target: library
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/library.p.20.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-	target: bakery
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/shop_bakery.p.16.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-	target: tree
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/tree2.png
-			min-zoom : 16
-			icon-width : 6
-		draw : icon
-	target: memorial
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/memorial.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-	target: school
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/school.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-		draw : text
-	target : puffin
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/traffic_light.png
-			min-zoom : 16
-			icon-width : 16
-		draw : icon
-	target : mini roundabout
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/mini_round.png
-			min-zoom : 16
-			icon-width : 9
-		draw : icon
-
-	target : gate
-		define
-			icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/gate2.png
-			min-zoom : 16
-			icon-width : 7
-		draw : icon
-
-	target : tourism*
-		define
-			min-zoom : 17
-			text-color : #2B2B2B
-		draw : text
-		if : *hotel
-			define
-				icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/hotel2.p.20.png
-				min-zoom : 16
-				icon-width : 16
-
-		elseif : *viewpoint
-			define
-				icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/view_point.p.16.png
-				min-zoom : 16
-				icon-width : 16
-
-		elseif : *museum
-			define
-				icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/museum.p.16.png
-				min-zoom : 16
-				icon-width : 16
-		else
-			stop
-		draw : icon
-
-	target : amenity*
-		define
-			min-zoom : 17
-			text-color : #858585
-		draw : text
-
-		define
-			min-zoom : 16
-			icon-width : 16
-		if : *pub
-			define
-				icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/pub.p.16.png
-		elseif : *fast_food
-			define
-				icon-image : http://svn.openstreetmap.org/applications/rendering/mapnik/symbols/fast_food.png
-		else
-			stop
-		draw : icon
+	
 
 
 	target: contour*
@@ -883,9 +672,9 @@ rules
 				define
 					font-size : 14:8;20:16
 					min-zoom : 14
-			draw : text
+			//draw : text
 		else
 			define
 				text : name
 				min-zoom : 17
-			draw : text	
+			//draw : text	

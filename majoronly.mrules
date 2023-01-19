@@ -1,0 +1,42 @@
+﻿// Maperitive rendering ruleset resembling Google Maps (as of February 2011)
+// http://maperitive.net
+
+// Created by Igor Brejc
+// Released under the Creative Commons Attribution-ShareAlike 3.0 License (http://creativecommons.org/licenses/by-sa/3.0/)
+
+features
+	
+		
+	lines
+		motorway : highway=motorway		
+		major road : @isOneOf(highway, trunk, trunk_link, primary, primary_link)
+		
+properties
+	map-background-color	: white
+	
+	map.rendering.lflp.min-buffer-space : 5
+	map.rendering.lflp.max-allowed-corner-angle : 40
+
+rules
+	
+// lines
+
+
+	target : motorway
+	
+		define
+			min-zoom : 8
+			line-color : #2E2E2E
+			line-width : 2
+		draw : line
+	target : major road
+	
+		define
+			min-zoom : 8
+			line-color : #2E2E2E
+			line-width : 1
+			
+		
+		draw : line
+
+	

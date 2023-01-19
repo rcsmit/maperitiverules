@@ -1,0 +1,729 @@
+features
+	points, areas
+		parking : amenity=parking
+		postbox : amenity=post_box
+		postoffice : amenity=post_office
+		telephone : amenity=telephone
+		fire station : amenity=fire_station
+		police station : amenity=police
+		recycling : amenity=recycling
+		church : amenity=place_of_worship AND religion=christian
+		drinking water : amenity=drinking_water
+		bank : amenity=bank
+		atm : amenity=atm
+		toilets : amenity=toilets
+		library : amenity=library
+		conifer tree : natural=tree AND type=conifer
+		broadleaf tree : natural=tree AND type=broad_leafed
+		bus stop : highway=bus_stop
+		mini roundabout : highway=mini_roundabout
+		gate : barrier=gate
+		tourism viewpoint : tourism=viewpoint
+		tourism hotel : tourism=hotel
+		tourism museum : tourism=museum
+		amenity pub : amenity=pub
+		amenity fast_food : amenity=fast_food
+		puffin : crossing_ref=puffin
+		memorial : historic=memorial
+
+	areas
+		addressable : "addr:housenumber"
+		beach : natural=beach
+		building : building
+		water : natural=water OR waterway=riverbank OR landuse=reservoir OR landuse=basin
+		village green : landuse=village_green
+		forest : landuse=forest OR natural=wood
+		farm : landuse=farm OR landuse=farmland
+		grass : landuse=grass OR landuse=recreation_ground OR natural=heath OR natural=scrub
+		fell : natural=fell
+		glacier : natural=glacier
+		national park : boundary=national_park
+		allotments : landuse=allotments
+		academic : node[@isOneOf(amenity, university, college, school)] area[@isOneOf(amenity, university, college, school)]
+		meadow : natural=meadow OR landuse=meadow
+		nature reserve : leisure=nature_reserve
+		playground : leisure=playground
+		car park: amenity=parking
+		track : leisure=track
+		graveyard : amenity=grave_yard OR landuse=cemetery
+		military : landuse=military OR military=barracks 
+		park : leisure=park
+		leisure garden : leisure=garden
+		leisure pitch : leisure=pitch
+		leisure stadium : leisure=stadium
+		landuse retail : landuse=retail
+		landuse industrial : landuse=industrial
+		landuse garages : landuse=garages
+		commercial area : landuse=commercial
+		residential area : landuse=residential
+		aeroway apron : aeroway=apron
+		aeroway terminal : aeroway=terminal
+		
+	lines
+		oneway : oneway=yes OR oneway=true OR oneway=-1
+		coastline : natural=coastline
+		river : waterway=river 
+		stream : waterway=stream
+		canal : waterway=canal
+		drain : waterway=drain
+		railway : railway=rail
+		line barrier : barrier=wall OR barrier=fence
+		pipeline : man_made=pipeline
+		highway motorway : highway=motorway
+		highway motorway link : highway=motorway_link
+		highway trunk : highway=trunk
+		highway trunk link: highway=trunk_link
+		highway primary link : highway=primary_link
+		highway primary : highway=primary
+		highway secondary : highway=secondary
+		highway tertiary : highway=tertiary
+		highway unclassified : highway=unclassified
+		highway residential : highway=residential
+		highway service : highway=service
+		highway pedestrian : highway=pedestrian
+		highway track : highway=track
+		highway footway : highway=footway
+		highway cycleway : highway=cycleway
+		highway path : highway=path
+		highway private : access=private AND highway
+		highway steps : highway=steps
+		bridge foot : bridge=yes AND (foot=yes OR highway=footway)
+		historic citywalls : historic=citywalls OR historic=city_wall
+
+		aeroway runway : aeroway=runway
+		aeroway taxiway : aeroway=taxiway
+		
+		boundary country : boundary=administrative AND (admin_level=2 OR admin_level=4) AND NOT natural=coastline
+		boundary province : boundary=administrative AND admin_level=6
+		boundary municipal : boundary=administrative AND admin_level=8
+		
+		contour major : contour[@isMulti(elevation, 50)]
+		contour minor : contour[@isMulti(elevation, 10) and not @isMulti(elevation, 50)]
+
+		gps tracks : gpstrack[]
+		gps routes : gpsroute[]
+
+	points
+		place city : place=city
+		place town : place=town
+		place village : place=village
+		place hamlet : place=hamlet
+		place suburb : place=suburb
+		hospital : amenity=hospital
+		diy : shop=doityourself
+		hair dresser : shop=hairdresser
+		supermarket : shop=supermarket
+		convenience : shop=convenience
+		bakery : shop=bakery
+		restaurant : amenity=restaurant
+		cafe : amenity=cafe
+		pharmacy : amenity=pharmacy
+		peak : natural=peak
+
+		gps waypoints : gpswaypoint[]
+		gps trackpoints: gpstrack[].gpspoint[]
+		gps routepoints: gpsroute[].gpspoint[]
+
+properties
+	map-background-color	: #F2EEEA
+	map-background-opacity	: 1
+	map-sea-color : #A0B3CD
+	font-weight : bold
+	font-family : Arial
+	text-max-width : 7
+	text-halo-width : 25%
+	text-halo-opacity : 1
+	text-align-horizontal : center
+	text-align-vertical : center
+	font-size : 11
+	text-color : #786C60
+	font-stretch : 0.9
+	map.rendering.lflp.min-buffer-space : 5
+	map.rendering.lflp.max-allowed-corner-angle : 40
+	
+rules
+	target : $featuretype(point)
+		if : place*
+			define
+				font-weight : bold
+				text-color : black
+	
+			if : *city
+				define
+					font-size : 10:10;11:14;15:15
+					min-zoom : 6
+					max-zoom : 15.1
+			elseif : *town
+				define
+					font-size : 10:10;11:14;15:15
+					min-zoom : 8
+					max-zoom : 15.1
+			elseif : *village
+				define
+					font-size : 12
+					min-zoom : 11
+					max-zoom : 15.1
+			elseif : *hamlet
+				define
+					font-size : 12
+					min-zoom : 11
+					max-zoom : 15.1
+			elseif : *suburb
+				define
+					font-size : 12
+					min-zoom : 13
+					max-zoom : 15.1
+			draw : text
+		else
+			define
+				min-zoom : 16
+				font-size : 11
+				font-stretch : 0.9
+				font-weight : bold
+				text-color : #786C60
+				text : name
+			draw : text
+
+	target : $featuretype(area)
+		define
+			line-style : none
+			line-width : 1
+		if : forest
+			define
+				min-zoom : 9
+				fill-color : #B4D29D
+		elseif : beach
+			define
+				min-zoom : 10
+				fill-color : #FEFEC0
+		elseif : farm
+			define
+				min-zoom : 9
+				fill-color : #CCD9C2
+		elseif : fell
+			define
+				fill-color : #CCD9C2
+		elseif : water
+			define
+				fill-color : #A0B3CD
+		elseif : residential area
+			define
+				min-zoom : 10
+				fill-color : #EBE6DC
+				line-style : solid
+				line-color : #D0CFCE
+				font-size : 12
+		elseif : grass
+			define
+				fill-color : #CCD9C2
+		elseif : allotments
+			define
+				fill-color : #CCD9C2
+		elseif : meadow
+			define
+				fill-color : #CCD9C2
+		elseif : nature reserve
+			define
+				fill-color : #ABDE96
+		elseif : park
+			define
+				fill-color : #B4D29D
+		elseif : leisure garden
+			define
+				fill-color : #CCD9C2
+		elseif : graveyard
+			define
+				fill-color : #A9CAAE
+		elseif : building
+			define
+				min-zoom : 13
+				fill-color : #DCDBD8
+		elseif : leisure pitch
+			define
+				fill-color : #DCDBD8
+		elseif : leisure stadium
+			define
+				fill-color : #DCDBD8
+				line-style : solid
+				line-color : #B4B4B4
+		elseif : village green
+			define
+				fill-color : #CCD9C2
+		elseif : landuse retail
+			define
+				fill-color : #D2CECE
+			draw : line
+		elseif : landuse industrial
+			define
+				min-zoom : 10
+				fill-color : #D2CECE
+		elseif : landuse garages
+			define
+				fill-color : #D2CECE
+		elseif : commercial area
+			define
+				fill-color : #D2CECE
+		elseif : military
+			define
+				fill-color : #D2CECE
+		elseif : aeroway*
+			define
+				fill-color : #E9D1FE
+		elseif : glacier
+			define
+				fill-color : #DDECEC
+				line-style : dash
+				line-color : #DDECEC black 10%
+		else
+			stop
+		draw : fill
+		define
+			min-zoom : 16
+			font-size : 11
+			font-stretch : 0.9
+			font-weight : bold
+			text-color : #786C60
+			text : name
+		draw : text
+		
+	target : building
+		define
+			min-zoom : 14
+			line-width : 1
+			line-color : #A0A0A0
+		draw : line
+
+	target : leisure pitch
+		define
+			min-zoom : 14
+			line-width : 1
+			line-color : #A0A0A0
+		draw : line
+
+	target : aeroway runway
+		define
+			min-zoom : 11
+			line-color : #BBBBCC
+			line-width : 11:2;15:20
+		draw : line
+
+	target : aeroway taxiway
+		define
+			min-zoom : 11
+			line-color : #BBBBCC
+			line-width : 11:1;15:6
+		draw : line
+		
+	target : glacier
+		define
+			min-zoom : 10
+			text-color : #A3A3FE
+		draw : text
+		
+	target : academic
+		define
+			min-zoom : 16
+			font-size : 11
+			font-stretch : 0.9
+			font-weight : bold
+			text-color : #786C60
+			text : name
+		draw : text
+			
+	target : boundary province
+		define
+			min-zoom : 4
+			line-color : gray
+			line-opacity : 1
+			line-width : 1
+			line-style : dash
+		draw : line
+
+	target : peak
+		define
+			shape : triangle
+			shape-size : 12
+			fill-color : #D08F55
+			line-style : none
+			min-zoom : 11
+		draw : shape
+		define
+			text : @if(name, name @if(ele, "\n(" ele ")"), ele)
+			text-color : #ae4242
+			min-zoom : 13
+			font-size : 10
+			text-max-width : 10
+			text-offset-vertical : 1
+			text-align-vertical : near
+		draw : text
+					
+	target : railway
+		define
+			min-zoom : 16
+			line-color : #A1A1A1
+			line-width : 2.5
+		draw : line
+		define
+			min-zoom : 16
+			line-style : dashlong
+			line-color : white
+			line-width : 2.5
+			border-style : solid
+			border-color : #A1A1A1
+			border-width : 25%
+		draw : line
+		define
+			min-zoom : 13
+			max-zoom : 16
+			line-color : #A1A1A1
+			line-width : 1.5
+		draw : line
+		define
+			min-zoom : 13
+			max-zoom : 16
+			line-style : dashlong
+			line-color : white
+			line-width : 1.5
+			border-style : solid
+			border-color : #A1A1A1
+			border-width : 25%
+		draw : line
+		define
+			min-zoom : 6
+			max-zoom : 13
+			line-style : solid
+			line-color : #A1A1A1
+			line-opacity : 0.1
+			line-width : 1
+		draw : line
+
+	target : highway private
+		define
+			min-zoom : 15
+			line-width : 4
+			line-style : dash
+			line-color : #F7D4D4
+		draw : line
+
+	target : addressable
+		define
+			min-zoom : 16
+			font-size : 16:8;17:11
+			font-stretch : 1
+			font-weight : normal
+			text-color : #A0A0A0
+			text-halo-opacity : 0
+			text-halo-width : 0%
+			text : [[addr:housenumber]]
+		draw : text
+
+	target : highway*
+		define
+			font-size : 15:10;16:12
+			font-weight : bold
+	
+		for : oneway=yes OR oneway=true
+			define 
+				min-zoom : 15
+				shape : custom
+				shape-def : 60,0,20,-40,20,-15,-60,-15,-60,15,20,15,20,40;Z
+				shape-size : 12
+				shape-aspect : 0.7
+				shape-spacing : 10
+				fill-color : #A9ADCA
+				line-style : none
+			for : oneway=-1
+				define
+					angle : 180
+			draw : shape 
+		
+		define
+			line-style : solid
+			line-join : round
+			line-start-cap : round
+			line-end-cap : round
+	
+		if : *motorway*
+			if : *link
+				define
+					line-width : 7:1;12:3;13:4;16:5;18:6
+			else
+				define
+					line-width : 10:2;11:2.5;12:3;14:3;15:6;16:13;17:14
+			define
+				min-zoom : 7
+				line-color : #FFC345
+				border-style : solid
+				border-color : #D59400 black 30%
+				border-width : 12%
+			draw : line
+			define
+				min-zoom : 6
+				max-zoom : 7
+				border-style : none
+				line-width : 1
+				line-color : #D59400
+			draw : line
+			define
+				min-zoom : 11
+				max-zoom : 20
+				text-color : black
+				text-halo-color : #FFC345
+			draw : text
+		elseif : *trunk*
+			define
+				min-zoom : 7
+				line-color : #FFC345
+				line-width : 10:2;11:2.5;12:3;14:3;15:6;16:13;17:14
+				border-style : solid
+				border-color : #D59400 black 30%
+				border-width : 12%
+			draw : line
+			define
+				min-zoom : 6
+				max-zoom : 7
+				border-style : none
+				line-width : 1
+				line-color : #D59400
+			draw : line
+			define
+				min-zoom : 11
+				max-zoom : 20
+				text-color : black
+				text-halo-color : #FFC345
+			draw : text
+		elseif : *primary*
+			define
+				min-zoom : 7
+				line-color : #FFFD8B
+				line-width : 10:2;11:2.5;14:2.5;15:5;16:9;18:14
+				border-style : solid
+				border-color : #D0C5B5 black 20%
+				border-width : 12%
+			draw : line
+			define
+				min-zoom : 6
+				max-zoom : 7
+				border-style : none
+				line-width : 1
+				line-color : #FFC345
+			draw : line
+			define
+				min-zoom : 13
+				max-zoom : 20
+				text-color : black
+				text-halo-color : #FFFD8B
+			draw : text
+		elseif : *secondary
+			define
+				min-zoom : 14
+				line-color : #FFFD8B
+				line-width : 14:2.5;15:5;16:9;18:14
+				border-style : solid
+				border-color : #D0C5B5 black 20%
+				border-width : 12%
+			draw : line
+			define
+				min-zoom : 11
+				max-zoom : 14
+				border-style : none
+				line-width : 1
+				line-color : #D0C5B5
+			draw : line
+			define
+				min-zoom : 14
+				max-zoom : 20
+				text-halo-color : #FFFD8B
+			draw : text
+		elseif : *tertiary
+			define
+				min-zoom : 14
+				line-color : white
+				line-width : 14:2.5;15:5;16:9;18:14
+				border-style : solid
+				border-color : #D0C5B5 black 20%
+				border-width : 12%
+			draw : line
+			define
+				min-zoom : 11
+				max-zoom : 14
+				border-style : none
+				line-width : 1
+				line-color : #D0C5B5
+			draw : line
+			define
+				min-zoom : 13
+				max-zoom : 20
+			draw : text
+		elseif : *service
+			define
+				min-zoom : 19
+				line-color : white
+				line-width : 7:0.6;9:1;10:1.2;12:2.5;13:3;16:5;18:6
+				border-style : solid
+				border-color : #FEFEB2 black 20%
+				border-width : 15%
+			draw : line
+		elseif : *pedestrian
+			define
+				min-zoom : 19
+				line-color : #EDEDED
+				line-width : 7:0.6;9:1;10:1.2;12:2.5;13:3;16:5;18:6
+				border-style : solid
+				border-color : #D0C5B5 black 20%
+				border-width : 15%
+			draw : line
+
+		elseif : $regex("(.*residential)|(.*unclassified)")
+			define
+				min-zoom : 14
+				line-color : white
+				line-width : 14:2.5;15:5;16:9;18:14
+				border-style : solid
+				border-color : #D0C5B5 black 20%
+				border-width : 12%
+			draw : line
+			define
+				min-zoom : 12.9
+				max-zoom : 14
+				border-style : none
+				line-width : 1
+				line-color : #D0C5B5
+			draw : line
+			define
+				min-zoom : 14
+				max-zoom : 20
+			draw : text
+		elseif : *track
+			define
+				min-zoom : 19
+				line-color : #9D7517
+				line-width : 1.5
+				line-style : dash
+				border-style : solid
+				border-color : white
+				border-width : 100%
+				border-opacity : 0.3
+			draw : line
+		elseif : *footway
+			define	
+				min-zoom : 19
+				line-color : #F68474
+				line-width : 1.5
+				line-style : dot
+				border-style : solid
+				border-color : white
+				border-width : 100%
+				border-opacity : 0.3
+			draw : line
+			draw : text		
+		elseif : *cycleway
+			define	
+				min-zoom : 19
+				line-color : blue
+				line-width : 1.5
+				line-style : dot
+				border-style : solid
+				border-color : white
+				border-width : 100%
+				border-opacity : 0.3
+			draw : line
+		elseif : *path
+			define	
+				min-zoom : 19
+				line-color : #6E7C6D
+				line-width : 1.5
+				line-style : dash
+				border-style : solid
+				border-color : white
+				border-width : 100%
+				border-opacity : 0.3
+			draw : line
+		else
+			stop
+
+	target : highway steps
+		define
+			min-zoom : 18
+			shape : custom
+			shape-def : -1,1, -1,-1, 1,-1, 1,1;Z
+			shape-spacing : 2
+			shape-size : 16:1;20:3
+			shape-aspect : 3
+			fill-color : #F98072
+			line-style : none
+		draw : shape
+
+	target : pipeline
+		define
+			min-zoom : 13
+			line-color : black
+			line-width : 2
+
+	target : bridge foot
+		define
+			min-zoom : 13
+			line-color : white
+			line-width : 7:0.6;9:1;10:1.2;12:2.5;13:3;16:5;18:6
+			border-style : solid
+			border-color : #FEFEB2 black 20%
+			border-width : 15%
+		draw : line
+		draw : text
+
+	target : historic citywalls
+		define
+			min-zoom : 13
+			line-color : #8D968D
+			line-width : 7:0.6;9:1;10:1.2;12:2.5;13:3;16:10
+		draw : line
+		draw : text
+
+		define
+
+	target : river
+		define
+			line-color : #A0B3CD
+			line-width : 7:1;12:2;14:5
+		draw : line
+
+	target : canal
+		define
+			min-zoom : 12
+			line-color : #A0B3CD
+			line-width : 12:1;17:8
+		draw : line
+		
+	target : drain
+		define
+			min-zoom : 13
+			line-color : #A0B3CD
+			line-width : 1
+		draw : line		
+	target : stream
+		define
+			min-zoom : 13
+			line-color : #A0B3CD
+			line-width : 13:1;15:2
+		draw : line
+		
+	target: contour*
+		define
+			line-color : #7f3300
+			line-opacity : 0.35
+			curved : true
+		if : *major
+			define
+				min-zoom : 9
+				line-width : 11:0.1;11.9:1;12:2
+		else
+			define
+				min-zoom : 12
+				line-width : 1
+		draw : contour
+		
+	target: coastline
+		define
+			line-color : #B5D0D0
+			line-width : 2
+		draw : line

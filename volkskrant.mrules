@@ -14,20 +14,17 @@
 //		- added rendering of playground, sport, living_street and steps
 //		- added path (thin solid line) and motorway (thicker orange line) rendering adjusted
 //		- added special rendering for tunnels
+//use-ruleset location="C:\Users\rcxsm\Documents\Maperitive-latest\Maperitive\rules\volkskrant.mrules"
 
 features
 	
-		
 	lines
 		boundary country : boundary=administrative AND (admin_level=2 OR admin_level=4) AND NOT natural=coastline
 
-		aeroway line runway : aeroway=runway
-		aeroway line taxiway : aeroway=taxiway
 
 		railway : railway=rail AND @isFalse(disused) AND NOT service=yard AND @isFalse(noexit)
 
 		motorway : highway=motorway
-		motorway link : highway=motorway_link
 		major road : @isOneOf(highway, trunk, trunk_link, primary, primary_link, secondary, tertiary)
 		minor road : @isOneOf(highway, unclassified, residential, service, living_street) OR (highway=track AND (@isOneOf(tracktype, grade1, grade2, grade3) OR NOT tracktype))
 		path : @isOneOf(highway, path, footway, pedestrian, steps) OR (highway=track AND @isOneOf(tracktype, grade4, grade5))
@@ -35,25 +32,31 @@ features
 		water line : waterway=stream OR waterway=river
 
 	areas
-	
 		water : natural=water OR natural=wetland OR waterway=riverbank OR waterway=stream OR landuse=reservoir OR landuse=basin
-
+		commercial: landuse=retail OR building=retail OR  landuse=commercial OR building=commercial
+		residential : landuse=residential
+		park : landuse=recreation_ground OR landuse=forest OR natural=wood OR landuse=grass OR leisure=pitch
 properties
-	map-background-color	: #F2EFE9
+	map-background-color	: #ffffff
 	map-background-opacity	: 1
-	map-sea-color : #99B3CC
+	map-sea-color : #54BAE7
 	font-weight : bold
 	font-family : Arial
-	//text-max-width : 7
-	//text-halo-width : 35%
-	//text-halo-opacity : 0.75
-	//text-align-horizontal : center
-	//text-align-vertical : center
+	text-max-width : 7
+	text-halo-width : 35%
+	text-halo-opacity : 0.75
+	text-align-horizontal : center
+	text-align-vertical : center
 	font-stretch : 0.9
 	map.rendering.lflp.min-buffer-space : 5
 	map.rendering.lflp.max-allowed-corner-angle : 40
 
 rules
+// icons
+	
+// texts
+	
+
 // lines
 
 	target : boundary*
@@ -64,21 +67,22 @@ rules
 			border-color : #818181
 			border-width : 110%
 			border-opacity : 0.4
-		// draw : line
+		draw : line
 
+	
 	target : railway
 		define
 			min-zoom : 13
-			line-color : #a1a1a1
+			line-color : #878086
 			line-width : 2
 		draw : line
 		define
 			min-zoom : 13
 			line-style : dashlong
-			line-color : white
+			line-color : #B1A5AD
 			line-width : 1
 			border-style : solid
-			border-color : #a1a1a1
+			border-color : #878086
 			border-width : 25%
 		draw : line
 		define
@@ -86,7 +90,7 @@ rules
 			max-zoom : 13
 			line-style : solid
 			border-style : none
-			line-color : #a1a1a1
+			line-color : #878086
 			line-width : 1
 		draw : line
 
@@ -94,88 +98,84 @@ rules
 		define
 			line-width : 7:1;13:3;15:10
 			min-zoom : 7
-			line-color : yellow
-			//border-style : solid
-			//border-color : #FFC345 black 20%
-			//border-width : 20%
-		for : tunnel=yes
-			define
-			//	border-style : dot
+			line-color : #918686
+			
 		draw : line
+
 
 	target : motorway link
 		define
 			line-width : 7:1;13:2;15:3
 			min-zoom : 10
-			line-color : #ffe0ff
-			//border-style : solid
-			//border-color : #ffe068 black 20%
-			//border-width : 50%
-		for : tunnel=yes
-			define
-			//	border-style : dot
+			line-color : #918686
+			
+		
 		draw : line
 
 	target : major road
-	// HOUDEN !!!!
 		define
-			min-zoom : 8
-			line-color : green
-			line-width : 10:1;13:2;14:3;15:4;18:8
-			//border-style : solid
-			//border-color : #fffd8b black 20%
-			//border-width : 0
-
-		for : highway=tertiary
-			define
-				min-zoom : 11
-		for : tunnel=no
-			define
-			//	border-style : dot
-		draw : line
+			min-zoom : 10
+			line-color : #ffffff
+			line-width : 10:1;13:2;14:3;15:4;18:12
+			
+		draw : line	
+		define
+			text:name
+			min-zoom : 13
+			font-size : 13:9.5
+			font-weight : normal
+			//text-halo-color : #fffd8b
+		//draw : text
 
 	target : minor road
 		define
-			min-zoom : 10.5
-			max-zoom : 13.1
-			border-style : none
-			line-color : #ffccee
-			line-width : 1
+			min-zoom : 13
+			max-zoom : 20
+			line-color : #918686
+			line-width : 10:1;13:1.5;14:2.5;15:5;16:10
 		//draw : line
-		define
-			min-zoom : 13.1
-			max-zoom : 20
-			line-color : red
-			line-width : 13:1;14:2.2;15:2;16:2
-			//border-style : solid
-			//border-color : #D4CCB8
-			//border-width : 0
-			line-end-cap: round
-		for : tunnel=no
-			define
-				border-style : dot
-		draw : line
 		
-	
-		
+
 	target : path
-	// voetpaden  paadjes naast wegen
 		define
-			min-zoom : 14.5
+			min-zoom : 15
 			max-zoom : 20
-			line-color : #F800EF
-			border-style : solid
-			border-width : 0
-			border-color : #D4CCB8
-			line-width : 14:1;15:1;15.5:1
-		for : tunnel=no
-			define
-				border-style : dot
-		draw : line
+			line-color : #918686
+			line-width : 14:1;15:1;15.5:4
+		
+		 draw : line
 
 	target : water line
 		define
 			min-zoom : 10
-			line-color : #A5BFDD
+			line-color : 	#677F9E
 			line-width : 14:1;16:5;20:10
 		draw : line
+
+// landuse
+
+
+	target : $featuretype(area)
+		define
+			line-style : none
+			line-width : 1
+		if : water
+			define
+				fill-color : #677F9E
+		elseif : commercial
+			define
+				fill-color : #ADA2AA
+		elseif : residential 
+			define
+				fill-color : #B8ADB5
+				
+		elseif : park
+			define
+				fill-color : #88A676
+	
+		
+		else
+			stop
+		draw : fill
+
+	

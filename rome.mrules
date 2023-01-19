@@ -1,0 +1,431 @@
+// Default rendering rules for Maperitive resembling that of OSM Mapnik
+// http://maperitive.net
+
+// Created by Igor Brejc
+// Released under the Creative Commons Attribution-ShareAlike 3.0 License (http://creativecommons.org/licenses/by-sa/3.0/)
+// Updates by Michael <quelbs_at_gmail.com>
+// Icons used: Map icons CC-0 from SJJB Management (http://www.sjjb.co.uk/mapicons)
+
+features
+	points, areas
+		
+	areas
+	
+
+	lines
+
+
+		boundary country : boundary=administrative AND (admin_level=2 OR admin_level=4) AND NOT natural=coastline
+
+		aeroway line runway : aeroway=runway
+		aeroway line taxiway : aeroway=taxiway
+
+		railway : railway=rail AND @isFalse(disused) AND NOT service=yard AND @isFalse(noexit)
+
+		motorway : highway=motorway
+		motorway link : highway=motorway_link
+		major road : @isOneOf(highway, trunk, trunk_link, primary, primary_link, secondary, tertiary)
+		minor road : @isOneOf(highway, unclassified, residential, service, living_street) OR (highway=track AND (@isOneOf(tracktype, grade1, grade2, grade3) OR NOT tracktype))
+		path : @isOneOf(highway, path, footway, pedestrian, steps) OR (highway=track AND @isOneOf(tracktype, grade4, grade5))
+
+		water line : waterway=stream OR waterway=river
+
+	areas
+	
+		water : natural=water OR natural=wetland OR waterway=riverbank OR waterway=stream OR landuse=reservoir OR landuse=basin
+		oneway : oneway=yes OR oneway=true OR oneway=-1
+		coastline : natural=coastline
+		river : waterway=river
+		stream : waterway=stream
+		canal : waterway=canal
+		drain : waterway=drain
+		dock : waterway=dock
+		railway rail : railway=rail
+		railway lightrail : railway=light_rail
+		platform : railway=platform OR public_transport=platform
+		line barrier : barrier=wall OR barrier=fence
+		highway motorway : highway=motorway OR (highway=construction AND construction=motorway)
+		highway motorway link : highway=motorway_link OR (highway=construction AND construction=motorway_link)
+		highway trunk : highway=trunk OR (highway=construction AND construction=trunk)
+		highway trunk link: highway=trunk_link OR (highway=construction AND construction=trunk_link)
+		highway primary link : highway=primary_link OR (highway=construction AND construction=primary_link)
+		highway primary : highway=primary OR (highway=construction AND construction=primary)
+		highway secondary : highway=secondary OR (highway=construction AND construction=secondary)
+		highway tertiary : highway=tertiary OR (highway=construction AND construction=tertiary)
+		highway unclassified : highway=unclassified OR (highway=construction AND construction=unclassified)
+		highway residential : highway=residential OR (highway=construction AND construction=residential)
+		highway living_street : highway=living_street OR (highway=construction AND construction=living_street)
+		highway construction : highway=construction
+		highway service : highway=service
+		highway pedestrian : highway=pedestrian
+		highway track : highway=track
+		highway footway : highway=footway
+		highway cycleway : highway=cycleway
+		highway path : highway=path
+		highway access private : access=private AND highway
+		highway access destination : access=destination AND highway
+		highway steps : highway=steps
+		pier : man_made=pier
+		bridge foot : bridge=yes AND (foot=yes OR highway=footway)
+		historic citywalls : historic=citywalls OR historic=city_wall
+		
+
+// Routes
+//		
+	
+
+properties
+	map-background-color	: #FEFEE9
+	map-background-opacity	: 1
+	map-sea-color : #B5D0D0
+	font-weight : bold
+	font-family : Verdana
+	text-max-width : 7
+	text-halo-width : 25%
+	text-halo-opacity : 0.75
+	text-align-horizontal : center
+	text-align-vertical : center
+	font-stretch : 0.9
+	map.rendering.lflp.min-buffer-space : 5
+	map.rendering.lflp.max-allowed-corner-angle : 40
+
+rules
+	
+
+	
+
+	
+	target : boundary*
+		define
+			line-color : #9E1A99
+			line-opacity : 1
+		if : boundary country
+			define
+				line-width : 6:1;9:3;10:6
+		elseif : boundary province
+			define
+				min-zoom : 4
+				line-width : 4:1;11:3
+				line-style : dash
+		elseif : boundary municipal
+			define
+				min-zoom : 12
+				line-width : 12:1;14:2
+				line-style : dash
+		draw : line
+
+	
+
+	
+
+	
+
+	target : railway rail
+		define
+			min-zoom : 13
+			line-style : dashlong
+			line-color : white
+			line-width : 2
+			border-style : solid
+			border-color : gray
+			border-width : 25%
+		//draw : line
+		define
+			min-zoom : 6
+			max-zoom : 13
+			line-style : none
+			line-color : white black 30%
+			line-width : 6:1;8:1;12:1.5
+		//draw : line
+	target : railway*
+		define
+			min-zoom : 13
+			line-color : gray
+			line-width : 2
+		//draw : line
+		define
+			min-zoom : 15
+			text-align-horizontal : center
+			text-align-vertical : center
+		//draw:text
+
+	
+	target : highway*
+		define
+			font-size : 15:7;18:10
+			font-weight : bold
+
+		for : oneway=yes OR oneway=true
+			define
+				min-zoom : 15
+				shape : custom
+				shape-def : 60,0,20,-40,20,-15,-60,-15,-60,15,20,15,20,40;Z
+				shape-size : 12
+				shape-aspect : 0.75
+				shape-spacing : 6
+				fill-color : #6C70D4
+				line-style : none
+			for : oneway=-1
+				define
+					angle : 180
+			//draw : shape
+
+		define
+			line-style : solid
+			//line-join : round
+			//line-start-cap : round
+			//line-end-cap : round
+			line-start-cap : none
+			line-end-cap : none
+
+		if : *motorway*
+			if : *link
+				define
+					//line-width : 7:1;12:3;13:4;16:5;18:6
+					line-width : 0
+			else
+				define
+					//line-width : 7:1;9:2;12:3;13:7;16:10;18:12
+					line-width : 7:1;12:3;13:4;16:5;18:6
+			define
+				min-zoom : 7
+				// line-color : #849BBD
+				line-color : #FFDC00
+				border-style : solid
+				border-color : #FF4800 
+				border-width : 15%
+			draw : line
+			//define
+			//	min-zoom : 7
+			//	max-zoom : 12
+				//border-style : none
+			//draw : line
+			
+		elseif : *trunk*
+			define
+				min-zoom : 7
+				//line-color : #96D296
+				line-color : red
+				line-width : 11:1;13:2;15:10;18:12
+				border-style : solid
+				border-color : #96D296 black 20%
+				border-width : 15%
+			for : tunnel=no
+				define
+					border-style : dot
+			draw : line
+			define
+				min-zoom : 7
+				max-zoom : 12
+				border-style : none
+			//draw : line
+		elseif : *primary*
+			define
+				min-zoom : 10
+				line-color : #FF4800
+				line-width : 11:2;12:2;15:6;18:8
+				border-style : solid
+				border-color : #FF4800 black 20%
+				border-width : 0%
+			for : tunnel=no
+				define
+					border-style : dot
+			draw : line
+			define
+				min-zoom : 7
+				max-zoom : 11
+				border-style : none
+			draw : line
+			define
+				min-zoom : 13
+				max-zoom : 20
+			//draw : text
+		elseif : *secondary
+			define
+				min-zoom : 8
+				//line-color : #FDD6A4
+
+				line-color : #FF4800
+								
+				line-width : 10:1;11:1;13:3;15:3;18:4
+				border-style : solid
+				border-color : #CAA36F
+				border-width : 0%
+			for : tunnel=no
+				define
+					border-style : dot
+			for : bridge=no
+				define
+					border-color : #000
+					border-width : 8%
+			draw : line
+			
+			define
+				min-zoom : 13
+				max-zoom : 20
+			//draw : text
+		elseif : *tertiary
+			define
+				min-zoom : 8
+				line-color : #FEFEB2
+				line-width : 10:1;13:1;15:2;18:2
+				border-style : solid
+				border-color : #FEFEB2 black 20%
+				border-width : 15%
+			for : tunnel=no
+				define
+					border-style : dot
+			for : bridge=no
+				define
+					border-color : #000
+			draw : line
+			define
+				min-zoom : 10
+				max-zoom : 13
+				line-color : white black 25%
+				border-style : none
+			// draw : line
+			define
+				min-zoom : 15
+				max-zoom : 20
+			// draw : text
+		stop
+		
+	
+
+
+
+	
+	target : major road
+	// HOUDEN !!!!
+		define
+			//min-zoom : 8
+			line-color : #FF4800
+			line-width : 10:1;13:2;14:3;15:4;18:8
+			//border-style : solid
+			//border-color : #fffd8b black 20%
+			//border-width : 0
+
+		for : highway=tertiary
+			define
+				min-zoom : 11
+		for : tunnel=no
+			define
+			//	border-style : dot
+		draw : line
+
+
+
+	target : minor road
+		define
+			//min-zoom : 10.5
+			//max-zoom : 13.1
+			border-style : none
+			line-color : #FF4800
+			line-width : 1
+		draw : line
+		define
+			//min-zoom : 13.1
+			//max-zoom : 20
+			line-color : #FF4800
+			line-width : 13:1;14:1;15:1;16:1
+			//border-style : solid
+			//border-color : #D4CCB8
+			//border-width : 0
+			line-end-cap: round
+		for : tunnel=no
+			define
+				border-style : dot
+		draw : line
+		
+	
+	target : path
+	// voetpaden  paadjes naast wegen
+		define
+			min-zoom : 14.5
+			max-zoom : 20
+			line-color : #F800EF
+			border-style : solid
+			border-width : 0
+			border-color : #D4CCB8
+			line-width : 14:1;15:1;15.5:1
+		for : tunnel=no
+			define
+				border-style : dot
+		draw : line
+	
+
+	target : historic citywalls
+		define
+			//min-zoom : 13
+			line-color : green
+			line-width : 7:0.6;9:1;10:1.2;12:2.5;13:3;16:10
+		//draw : line
+		//draw : text
+
+		
+
+	target : river
+		define
+			line-color : #B5D0D0
+			line-width : 7:1;12:2;14:5
+		draw : line
+		define
+			min-zoom:13
+			font-size:13:8;16:12
+			text-color:#B5D0D0
+			font-weight:normal
+		//draw:text
+	target : stream
+		define
+			line-color : #B5D0D0
+			line-width : 13:1;15:2
+		//draw : line
+		define
+			min-zoom:13
+			font-size:13:8;16:12
+			text-color:#B5D0D0
+			font-weight:normal
+		//draw:text
+
+	target : canal
+		define
+			min-zoom : 12
+			line-color : #B5D0D0
+			line-width : 12:1;17:8
+		//draw : line
+		define
+			min-zoom:13
+			font-size:13:8;16:12
+			text-color:#B5D0D0
+			font-weight:normal
+		//draw:text
+
+
+	target: contour*
+		define
+			line-color : #7f3300
+			line-opacity : 0.35
+			curved : true
+		if : *major
+			define
+				map.rendering.contour.label : true
+				min-zoom : 9
+				line-width : 11:0.1;11.9:1;12:2
+				font-size : 10
+				font-style : italic
+				font-weight : normal
+				text-halo-width : 35%
+				text-halo-opacity : 1
+				text-halo-color : #F1EEE8
+		else
+			define
+				min-zoom : 12
+				line-width : 1
+		// draw : contour
+
+	target: coastline
+		define
+			line-color : #B5D0D0
+			line-width : 2
+		draw : line
