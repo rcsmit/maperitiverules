@@ -1,6 +1,11 @@
 # maperitiverules
 Rules for Maperative for basic maps
 
+Find Maperitive here : http://maperitive.net/
+
+
+Read my tutorial here: https://rcsmit.medium.com/how-to-make-beautiful-custom-maps-32a02c77c395
+
 
 ## Default
 ![image](https://user-images.githubusercontent.com/1609141/213362712-68392326-6414-4773-827e-cd8fb55d585e.png)
